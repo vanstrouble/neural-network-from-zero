@@ -12,34 +12,32 @@ def list_files(mnist_path):
     ]
 
 
-def get_images(mnist_path):
-    for f in list_files(mnist_path):
-        if "train-images" in f:
-            with gzip.open(f, "rb") as data:
-                _ = int.from_bytes(data.read(4), "big")
-                num_images = int.from_bytes(data.read(4), "big")
-                rows = int.from_bytes(data.read(4), "big")
-                cols = int.from_bytes(data.read(4), "big")
-                train_images = data.read()
-                x_train = np.frombuffer(train_images, dtype=np.uint8)
-                x_train = x_train.reshape((num_images, rows, cols))
-        elif "train-labels" in f:
-            with gzip.open(f, "rb") as data:
-                train_labels = data.read()[8:]
-                y_train = np.frombuffer(train_labels, dtype=np.uint8)
+def read_images(data):
+    _ = int.from_bytes(data.read(4), "big")
+    num_images = int.from_bytes(data.read(4), "big")
+    rows = int.from_bytes(data.read(4), "big")
+    cols = int.from_bytes(data.read(4), "big")
+    images = data.read()
+    return np.frombuffer(images, dtype=np.uint8).reshape((num_images, rows, cols))
 
-        if "t10k-images" in f:
-            with gzip.open(f, "rb") as data:
-                _ = int.from_bytes(data.read(4), "big")
-                num_images = int.from_bytes(data.read(4), "big")
-                rows = int.from_bytes(data.read(4), "big")
-                cols = int.from_bytes(data.read(4), "big")
-                test_images = data.read()
-                x_test = np.frombuffer(test_images, dtype=np.uint8)
-                x_test = x_test.reshape((num_images, rows, cols))
-        elif "t10k-labels" in f:
-            with gzip.open(f, "rb") as data:
-                test_labels = data.read()[8:]
-                y_test = np.frombuffer(test_labels, dtype=np.uint8)
+
+def read_labels(data):
+    labels = data.read()[8:]
+    return np.frombuffer(labels, dtype=np.uint8)
+
+
+def get_images(mnist_path):
+    x_train, y_train, x_test, y_test = None, None, None, None
+
+    for f in list_files(mnist_path):
+        with gzip.open(f, "rb") as data:
+            if "train-images" in f:
+                x_train = read_images(data)
+            elif "train-labels" in f:
+                y_train = read_labels(data)
+            elif "t10k-images" in f:
+                x_test = read_images(data)
+            elif "t10k-labels" in f:
+                y_test = read_labels(data)
 
     return x_train, y_train, x_test, y_test
