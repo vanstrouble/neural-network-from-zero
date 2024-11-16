@@ -14,6 +14,26 @@ It is composed of layers of interconnected nodes (neurons), where each layer tra
 
 Neural networks are capable of learning complex patterns from large volumes of data, making them ideal for tasks such as image recognition, natural language processing, and strategy games.
 
+### Main Components of a Neural Network
+
+1. **Input Layer**: This layer receives the input data and passes it to the next layer. Each node in this layer represents a feature or attribute of the input data.
+
+2. **Hidden Layers**: These layers are located between the input and output layers. They perform various computations and transformations on the input data. The number of hidden layers and the number of nodes in each layer can vary depending on the complexity of the model.
+
+3. **Output Layer**: This layer produces the final output of the network. The number of nodes in this layer corresponds to the number of possible outcomes or classes in a classification problem.
+
+4. **Weights and Biases**: Weights are the parameters that determine the strength of the connection between nodes in different layers. Biases are additional parameters that allow the model to fit the data better by shifting the activation function.
+
+5. **Activation Functions**: These functions introduce non-linearity into the model, enabling it to learn complex patterns. Common activation functions include ReLU (Rectified Linear Unit), Sigmoid, and Tanh.
+
+6. **Loss Function**: This function measures the difference between the predicted output and the actual output. The goal of training a neural network is to minimize this loss.
+
+7. **Optimizer**: This algorithm adjusts the weights and biases to minimize the loss function. Common optimizers include Gradient Descent, Adam, and RMSprop.
+
+<img src="img/01-deep-img.jpeg" width=90%/>
+
+<img src="img/02-deep-img.jpeg" width=90%/>
+
 ## Technologies Used
 
 In this project, we will use only Python and the NumPy library to build our neural network from scratch.
